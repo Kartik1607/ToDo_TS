@@ -48,4 +48,8 @@ window.App.onToDoEdit = function(id: number, value: string) {
 
 window.App.refreshList = function() {
     UI.refreshList();
+};
+
+window.onload = function() {
+    UI.refreshList();
 }

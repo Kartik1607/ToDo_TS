@@ -71,9 +71,11 @@
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var Constants_1 = __webpack_require__(1);
+var LocalStorageService_1 = __webpack_require__(3);
 var ToDoRepository = /** @class */ (function () {
     function ToDoRepository() {
-        this.items = [];
+        this.items = LocalStorageService_1.default.get();
+        this.items = this.items ? this.items : [];
     }
     ToDoRepository.prototype.getIndexById = function (id) {
         var index = -1;
@@ -88,19 +90,23 @@ var ToDoRepository = /** @class */ (function () {
         item.id = Date.now();
         item.status = Constants_1.default.STATUS_ACTIVE;
         this.items.push(item);
+        LocalStorageService_1.default.set(this.items);
         return item;
     };
     ToDoRepository.prototype.removeItem = function (id) {
         var index = this.getIndexById(id);
         this.items[index].status = Constants_1.default.STATUS_DELETED;
+        LocalStorageService_1.default.set(this.items);
     };
     ToDoRepository.prototype.completeItem = function (id) {
         var index = this.getIndexById(id);
         this.items[index].status = Constants_1.default.STATUS_COMPLETED;
+        LocalStorageService_1.default.set(this.items);
     };
     ToDoRepository.prototype.activateItem = function (id) {
         var index = this.getIndexById(id);
         this.items[index].status = Constants_1.default.STATUS_ACTIVE;
+        LocalStorageService_1.default.set(this.items);
     };
     ToDoRepository.prototype.getItem = function (id) {
         return this.items[this.getIndexById(id)];
@@ -110,6 +116,7 @@ var ToDoRepository = /** @class */ (function () {
     };
     ToDoRepository.prototype.editElement = function (id, value) {
         this.items[this.getIndexById(id)].name = value;
+        LocalStorageService_1.default.set(this.items);
     };
     return ToDoRepository;
 }());
@@ -129,7 +136,7 @@ var STATUS_COMPLETED = 'COMPLETED';
 exports.default = {
     STATUS_DELETED: STATUS_DELETED,
     STATUS_ACTIVE: STATUS_ACTIVE,
-    STATUS_COMPLETED: STATUS_COMPLETED
+    STATUS_COMPLETED: STATUS_COMPLETED,
 };
 
 
@@ -141,8 +148,8 @@ exports.default = {
 
 Object.defineProperty(exports, "__esModule", { value: true });
 var ToDoRepository_1 = __webpack_require__(0);
-var ui_1 = __webpack_require__(3);
-var toastr = __webpack_require__(4);
+var ui_1 = __webpack_require__(4);
+var toastr = __webpack_require__(5);
 var inputElement = document.getElementById('inputNewToDo');
 window.App = {};
 window.App.postToDo = function () {
@@ -175,10 +182,36 @@ window.App.onToDoEdit = function (id, value) {
 window.App.refreshList = function () {
     ui_1.default.refreshList();
 };
+window.onload = function () {
+    ui_1.default.refreshList();
+};
 
 
 /***/ }),
 /* 3 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var KEY_LS = 'KEY_LS';
+var LocalStorageService = /** @class */ (function () {
+    function LocalStorageService() {
+    }
+    LocalStorageService.prototype.set = function (data) {
+        window.localStorage.setItem(KEY_LS, JSON.stringify(data));
+    };
+    LocalStorageService.prototype.get = function () {
+        return JSON.parse(window.localStorage.getItem(KEY_LS));
+    };
+    return LocalStorageService;
+}());
+;
+exports.default = new LocalStorageService();
+
+
+/***/ }),
+/* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -340,7 +373,7 @@ exports.default = new UI();
 
 
 /***/ }),
-/* 4 */
+/* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*
@@ -357,7 +390,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*
  */
 /* global define */
 ; (function (define) {
-    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(5)], __WEBPACK_AMD_DEFINE_RESULT__ = function ($) {
+    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(6)], __WEBPACK_AMD_DEFINE_RESULT__ = function ($) {
         return (function () {
             var $container;
             var listener;
@@ -772,11 +805,11 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*
         })();
     }.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__),
 				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
-}(__webpack_require__(6)));
+}(__webpack_require__(7)));
 
 
 /***/ }),
-/* 5 */
+/* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -11036,7 +11069,7 @@ return jQuery;
 
 
 /***/ }),
-/* 6 */
+/* 7 */
 /***/ (function(module, exports) {
 
 module.exports = function() {

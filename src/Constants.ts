@@ -5,5 +5,5 @@ const STATUS_COMPLETED:string = 'COMPLETED';
 export default {
     STATUS_DELETED,
     STATUS_ACTIVE,
-    STATUS_COMPLETED
+    STATUS_COMPLETED,
 }
