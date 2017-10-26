@@ -8,6 +8,10 @@ This is a simple Todo application made using TypseScript.
 
 <img src='https://imgur.com/uD8HRFh.png'/>
 
+## Live Demo
+
+Live Demo is hosted using [Github pages](https://kartik1607.github.io/ToDo_TS/)
+
 ## Installation
 
 Node is required to run the application. 
